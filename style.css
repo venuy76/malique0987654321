@@ -1,0 +1,246 @@
+/* ======================== */
+/* SETUP           */
+/* ======================== */
+body {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #f7f7f7;
+    color: #555;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+    margin: 0;
+    transition: background-color 0.5s, color 0.5s;
+}
+
+#game-container {
+    width: 800px;
+    max-width: 95vw;
+    margin-top: 20px;
+}
+
+#game-world {
+    width: 100%;
+    height: 300px;
+    position: relative;
+    overflow: hidden;
+    background-color: #f7f7f7;
+    transition: background-color 0.5s;
+}
+
+#ground {
+    width: 200%;
+    height: 2px;
+    background-color: #555;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    animation: ground-scroll 5s linear infinite;
+    animation-play-state: paused; /* Will be started by JS */
+    transition: background-color 0.5s;
+}
+
+@keyframes ground-scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* ======================== */
+/* UI & MESSAGES     */
+/* ======================== */
+#score-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: right;
+}
+
+#start-message, #game-over-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.hidden { display: none !important; }
+
+/* ======================== */
+/* DINO           */
+/* ======================== */
+#dino {
+    --dino-width: 88px;
+    --dino-height: 94px;
+    width: var(--dino-width);
+    height: var(--dino-height);
+    position: absolute;
+    bottom: 0;
+    left: 50px;
+    transform: translateY(0);
+}
+
+.dino-body {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: #555;
+    /* This creates the head, body, and tail shape */
+    clip-path: polygon(
+        25% 0%, 50% 0%, 55% 15%, 80% 15%, 85% 25%, 
+        100% 25%, 100% 60%, 85% 60%, 85% 75%, 60% 75%, 
+        60% 90%, 0% 90%, 0% 60%, 25% 60%
+    );
+    transition: background-color 0.5s;
+}
+
+.dino-leg {
+    width: 20px;
+    height: 30px;
+    background-color: #555;
+    position: absolute;
+    bottom: 0;
+    animation-play-state: paused;
+    transition: background-color 0.5s;
+}
+
+.dino-leg-1 {
+    left: 20px;
+    animation: run-1 0.25s linear infinite;
+}
+.dino-leg-2 {
+    left: 50px;
+    animation: run-2 0.25s linear infinite;
+}
+
+@keyframes run-1 {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(20deg); }
+    50% { transform: rotate(0deg); }
+    75% { transform: rotate(-20deg); }
+    100% { transform: rotate(0deg); }
+}
+@keyframes run-2 {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(-20deg); }
+    50% { transform: rotate(0deg); }
+    75% { transform: rotate(20deg); }
+    100% { transform: rotate(0deg); }
+}
+
+/* Ducking State */
+#dino.ducking {
+    --dino-height: 50px;
+}
+#dino.ducking .dino-body {
+    clip-path: polygon(
+        0% 0%, 80% 0%, 100% 30%, 100% 100%, 
+        0% 100%
+    );
+}
+
+/* ======================== */
+/* OBSTACLES        */
+/* ======================== */
+.obstacle {
+    position: absolute;
+    bottom: 0;
+    background-color: #555;
+    transition: background-color 0.5s;
+}
+
+.cactus-small {
+    width: 25px;
+    height: 50px;
+}
+.cactus-large {
+    width: 75px;
+    height: 70px;
+}
+
+.pterodactyl {
+    width: 80px;
+    height: 25px;
+    /* clip-path to make a bird shape */
+    clip-path: polygon(
+        0% 50%, 20% 0%, 50% 30%, 80% 0%, 
+        100% 50%, 80% 100%, 50% 70%, 20% 100%
+    );
+    animation: flap 0.3s linear infinite;
+}
+
+@keyframes flap {
+    0% { transform: translateY(-5px); }
+    50% { transform: translateY(5px); }
+    100% { transform: translateY(-5px); }
+}
+
+
+/* ======================== */
+/* NIGHT MODE         */
+/* ======================== */
+body.night-mode {
+    background-color: #222;
+    color: #f7f7f7;
+}
+.night-mode #game-world {
+    background-color: #222;
+}
+.night-mode #ground,
+.night-mode .dino-body,
+.night-mode .dino-leg,
+.night-mode .obstacle {
+    background-color: #f7f7f7;
+}
+.night-mode #leaderboard-list li {
+    border-color: #555;
+}
+.night-mode #player-name-input {
+    background: #333;
+    border-color: #555;
+    color: #f7f7f7;
+}
+
+
+/* ======================== */
+/* LEADERBOARD        */
+/* ======================== */
+#leaderboard-section {
+    width: 800px;
+    max-width: 95vw;
+    margin-top: 20px;
+    text-align: center;
+}
+
+#submit-score-form {
+    margin-bottom: 20px;
+}
+
+#player-name-input {
+    padding: 10px;
+    border: 2px solid #ccc;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1rem;
+    transition: all 0.5s;
+}
+
+#leaderboard-list {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+}
+
+#leaderboard-list li {
+    font-size: 1.2rem;
+    padding: 5px;
+    border-bottom: 1px dashed #ccc;
+    display: flex;
+    justify-content: space-between;
+    transition: border-color 0.5s;
+}
+
+#leaderboard-list li strong {
+    margin-right: 20px;
+}

@@ -6,7 +6,7 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 // (The 'supabase' variable comes from the CDN script in your index.html)
 const { createClient } = supabase;
 const _supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-x=3
+
 console.log('Supabase client initialized:', _supabase);
 
 // 3. Example: Fetch data from a table

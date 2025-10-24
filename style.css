@@ -6,7 +6,7 @@ body {
     place-items: center;
     min-height: 100vh;
     text-align: center;
-     background-image: url('dexshrug.png'); /* Adjust path: './public/bg-hero.jpg' if in public/ */
+     background-image: url(''); /* Adjust path: './public/bg-hero.jpg' if in public/ */
   background-size: cover; /* Makes it "huge" by filling the viewport; use 'contain' if you want no cropping */
   background-position: center; /* Keeps it perfectly central */
   background-repeat: no-repeat; /* Prevents tiling */
